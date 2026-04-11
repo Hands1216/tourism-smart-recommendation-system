@@ -1,0 +1,14 @@
+# 编译输出
+target/
+*.jar
+*.war
+*.class
+
+# 敏感配置文件（如果必须保留本地配置，使用模板文件）
+application-prod.yml
+application-dev.yml
+**/application.yml
+target/
+**/application*.yml
+target/
+**/application*.yml

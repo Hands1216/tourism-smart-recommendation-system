@@ -1,0 +1,553 @@
+// ============================================
+// 全局样式 (Global Styles)
+// 旅游智慧推荐系统
+// ============================================
+
+// 引入设计系统
+@use 'design-tokens' as *;
+@use 'theme';
+@use 'animations';
+
+// ========== 基础重置 ==========
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+  font-size: $text-sm;
+  line-height: $leading-normal;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+// ========== 链接样式 ==========
+a {
+  color: var(--text-link);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-in-out);
+
+  &:hover {
+    color: var(--text-link-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+// ========== 图片 ==========
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// ========== 按钮重置 ==========
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ========== 输入框重置 ==========
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// ========== 滚动条样式 ==========
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-tertiary);
+
+  &:hover {
+    background-color: var(--text-tertiary);
+  }
+}
+
+// Firefox 滚动条
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--bg-tertiary);
+}
+
+// ========== 选中文本样式 ==========
+::selection {
+  background-color: rgba($brand-primary, 0.2);
+  color: var(--text-primary);
+}
+
+// ========== Focus 可见性 ==========
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+// ========== 工具类 - 文本 ==========
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-warning {
+  color: var(--color-warning);
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// ========== 工具类 - 间距 ==========
+// Margin
+@each $size, $value in (
+  '0': 0,
+  '1': $space-1,
+  '2': $space-2,
+  '3': $space-3,
+  '4': $space-4,
+  '5': $space-5,
+  '6': $space-6,
+  '8': $space-8,
+  '10': $space-10,
+  '12': $space-12
+) {
+  .mt-#{$size} { margin-top: $value; }
+  .mb-#{$size} { margin-bottom: $value; }
+  .ml-#{$size} { margin-left: $value; }
+  .mr-#{$size} { margin-right: $value; }
+  .mx-#{$size} { margin-left: $value; margin-right: $value; }
+  .my-#{$size} { margin-top: $value; margin-bottom: $value; }
+  .m-#{$size} { margin: $value; }
+}
+
+// Padding
+@each $size, $value in (
+  '0': 0,
+  '1': $space-1,
+  '2': $space-2,
+  '3': $space-3,
+  '4': $space-4,
+  '5': $space-5,
+  '6': $space-6,
+  '8': $space-8,
+  '10': $space-10,
+  '12': $space-12
+) {
+  .pt-#{$size} { padding-top: $value; }
+  .pb-#{$size} { padding-bottom: $value; }
+  .pl-#{$size} { padding-left: $value; }
+  .pr-#{$size} { padding-right: $value; }
+  .px-#{$size} { padding-left: $value; padding-right: $value; }
+  .py-#{$size} { padding-top: $value; padding-bottom: $value; }
+  .p-#{$size} { padding: $value; }
+}
+
+// Gap
+@each $size, $value in (
+  '1': $space-1,
+  '2': $space-2,
+  '3': $space-3,
+  '4': $space-4,
+  '5': $space-5,
+  '6': $space-6,
+  '8': $space-8
+) {
+  .gap-#{$size} { gap: $value; }
+}
+
+// ========== 工具类 - Flexbox ==========
+.flex {
+  display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-auto {
+  flex: auto;
+}
+
+.flex-none {
+  flex: none;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.items-stretch {
+  align-items: stretch;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// ========== 工具类 - Grid ==========
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+// ========== 工具类 - 显示 ==========
+.hidden {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+// ========== 工具类 - 定位 ==========
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.sticky {
+  position: sticky;
+}
+
+// ========== 工具类 - 尺寸 ==========
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+// ========== 工具类 - 圆角 ==========
+.rounded-none { border-radius: 0; }
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-2xl { border-radius: var(--radius-2xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+// ========== 工具类 - 阴影 ==========
+.shadow-none { box-shadow: none; }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+
+// ========== 工具类 - 背景 ==========
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+
+// ========== 工具类 - 边框 ==========
+.border {
+  border: 1px solid var(--border-color);
+}
+
+.border-t {
+  border-top: 1px solid var(--border-color);
+}
+
+.border-b {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.border-l {
+  border-left: 1px solid var(--border-color);
+}
+
+.border-r {
+  border-right: 1px solid var(--border-color);
+}
+
+// ========== 工具类 - 溢出 ==========
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+// ========== 工具类 - 光标 ==========
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+// ========== 工具类 - 用户选择 ==========
+.select-none {
+  user-select: none;
+}
+
+.select-text {
+  user-select: text;
+}
+
+// ========== 工具类 - 可访问性 ==========
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ========== 容器 ==========
+.container {
+  width: 100%;
+  max-width: $container-xl;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $space-4;
+  padding-right: $space-4;
+
+  @media (min-width: $breakpoint-lg) {
+    padding-left: $space-6;
+    padding-right: $space-6;
+  }
+}
+
+// ========== 卡片基础样式 ==========
+.card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+// ========== Glassmorphism 效果 ==========
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+
+// ========== 渐变背景 ==========
+.gradient-bg {
+  background: var(--gradient-primary);
+}
+
+// ========== 响应式隐藏 ==========
+@media (max-width: $breakpoint-sm) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .hidden-md {
+    display: none !important;
+  }
+}
+
+@media (min-width: $breakpoint-md) {
+  .hidden-md-up {
+    display: none !important;
+  }
+}
+
+@media (min-width: $breakpoint-lg) {
+  .hidden-lg-up {
+    display: none !important;
+  }
+}

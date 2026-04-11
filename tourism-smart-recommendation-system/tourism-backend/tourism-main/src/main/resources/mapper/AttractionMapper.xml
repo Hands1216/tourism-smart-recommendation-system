@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tourism.service.mapper.AttractionMapper">
+
+    <resultMap id="AttractionVOMap" type="com.tourism.model.vo.AttractionVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="description" property="description"/>
+        <result column="address" property="address"/>
+        <result column="city" property="city"/>
+        <result column="province" property="province"/>
+        <result column="district" property="district"/>
+        <result column="scenic_level" property="scenicLevel"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="open_time" property="openTime"/>
+        <result column="ticket_price" property="ticketPrice"/>
+        <result column="charge_type" property="chargeType"/>
+        <result column="suggested_duration" property="suggestedDuration"/>
+        <result column="best_months" property="bestMonths"/>
+        <result column="scene_type" property="sceneType"/>
+        <result column="rating" property="rating"/>
+        <result column="rating_count" property="ratingCount"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="favorite_count" property="favoriteCount"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="official_website" property="officialWebsite"/>
+        <result column="seasonal_status" property="seasonalStatus"/>
+        <result column="seasonal_note" property="seasonalNote"/>
+        <result column="is_favorited" property="isFavorited"/>
+        <result column="is_visited" property="isVisited"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectAttractionPage" resultMap="AttractionVOMap">
+        SELECT
+            a.id,
+            a.name,
+            a.category_id,
+            ac.name AS category_name,
+            a.description,
+            a.address,
+            a.city,
+            a.longitude,
+            a.latitude,
+            a.open_time,
+            a.ticket_price,
+            COALESCE(rs.avg_rating, 0) AS rating,
+            COALESCE(rs.rating_count, 0) AS rating_count,
+            a.create_time,
+            CASE WHEN f.id IS NOT NULL THEN 1 ELSE 0 END AS is_favorited
+        FROM attraction a
+        LEFT JOIN attraction_category ac ON a.category_id = ac.id
+        LEFT JOIN (
+            SELECT
+                attraction_id,
+                ROUND(AVG(overall_score), 1) AS avg_rating,
+                COUNT(*) AS rating_count
+            FROM attraction_rating
+            WHERE overall_score > 0
+            GROUP BY attraction_id
+        ) rs ON a.id = rs.attraction_id
+        LEFT JOIN favorite f ON a.id = f.item_id AND f.item_type = 'attraction'
+            AND f.user_id = #{userId} AND f.deleted = 0
+        WHERE a.deleted = 0
+        AND a.audit_status = 1
+        <if test="keyword != null and keyword != ''">
+            AND a.name LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="categoryId != null">
+            AND a.category_id = #{categoryId}
+        </if>
+        <if test="province != null and province != ''">
+            AND a.province IN
+            <foreach collection="province.split(',')" item="provinceItem" open="(" separator="," close=")">
+                #{provinceItem}
+            </foreach>
+        </if>
+        ORDER BY a.rating DESC, a.create_time DESC
+    </select>
+
+    <select id="selectAttractionDetail" resultMap="AttractionVOMap">
+        SELECT
+            a.id,
+            a.name,
+            a.category_id,
+            ac.name AS category_name,
+            a.description,
+            a.address,
+            a.city,
+            a.province,
+            a.district,
+            a.scenic_level,
+            a.longitude,
+            a.latitude,
+            a.open_time,
+            a.ticket_price,
+            a.charge_type,
+            a.suggested_duration,
+            a.best_months,
+            a.scene_type,
+            a.rating,
+            a.view_count,
+            a.favorite_count,
+            a.contact_phone,
+            a.official_website,
+            a.seasonal_status,
+            a.seasonal_note,
+            a.create_time,
+            CASE WHEN f.id IS NOT NULL THEN 1 ELSE 0 END AS is_favorited,
+            CASE WHEN uf.id IS NOT NULL THEN 1 ELSE 0 END AS is_visited
+        FROM attraction a
+        LEFT JOIN attraction_category ac ON a.category_id = ac.id
+        LEFT JOIN favorite f ON a.id = f.item_id AND f.item_type = 'attraction'
+            AND f.user_id = #{userId} AND f.deleted = 0
+        LEFT JOIN user_footprint uf ON a.id = uf.attraction_id AND uf.user_id = #{userId}
+        WHERE a.id = #{id} AND a.deleted = 0
+    </select>
+
+    <!-- 高级筛选分页查询 -->
+    <select id="selectAttractionPageAdvanced" resultMap="AttractionVOMap">
+        SELECT
+            a.id,
+            a.name,
+            a.category_id,
+            ac.name AS category_name,
+            a.description,
+            a.address,
+            a.city,
+            a.province,
+            a.district,
+            a.scenic_level,
+            a.longitude,
+            a.latitude,
+            a.open_time,
+            a.ticket_price,
+            a.charge_type,
+            a.suggested_duration,
+            a.best_months,
+            a.scene_type,
+            COALESCE(rs.avg_rating, 0) AS rating,
+            COALESCE(rs.rating_count, 0) AS rating_count,
+            a.view_count,
+            a.favorite_count,
+            a.contact_phone,
+            a.official_website,
+            a.seasonal_status,
+            a.seasonal_note,
+            a.create_time,
+            CASE WHEN f.id IS NOT NULL THEN 1 ELSE 0 END AS is_favorited,
+            CASE WHEN uf.id IS NOT NULL THEN 1 ELSE 0 END AS is_visited
+        FROM attraction a
+        LEFT JOIN attraction_category ac ON a.category_id = ac.id
+        LEFT JOIN (
+            SELECT
+                attraction_id,
+                ROUND(AVG(overall_score), 1) AS avg_rating,
+                COUNT(*) AS rating_count
+            FROM attraction_rating
+            WHERE overall_score > 0
+            GROUP BY attraction_id
+        ) rs ON a.id = rs.attraction_id
+        LEFT JOIN favorite f ON a.id = f.item_id AND f.item_type = 'attraction'
+            AND f.user_id = #{userId} AND f.deleted = 0
+        LEFT JOIN user_footprint uf ON a.id = uf.attraction_id AND uf.user_id = #{userId}
+        WHERE a.deleted = 0 AND a.audit_status = 1
+        <if test="query.keyword != null and query.keyword != ''">
+            AND a.name LIKE CONCAT('%', #{query.keyword}, '%')
+        </if>
+        <if test="query.categoryId != null">
+            AND a.category_id = #{query.categoryId}
+        </if>
+        <if test="query.province != null and query.province != ''">
+            AND a.province = #{query.province}
+        </if>
+        <if test="query.city != null and query.city != ''">
+            AND a.city = #{query.city}
+        </if>
+        <if test="query.district != null and query.district != ''">
+            AND a.district = #{query.district}
+        </if>
+        <if test="query.scenicLevel != null and query.scenicLevel != ''">
+            AND FIND_IN_SET(#{query.scenicLevel}, a.scenic_level) > 0
+        </if>
+        <if test="query.sceneType != null and query.sceneType != ''">
+            AND FIND_IN_SET(#{query.sceneType}, a.scene_type) > 0
+        </if>
+        <if test="query.minPrice != null">
+            AND a.ticket_price >= #{query.minPrice}
+        </if>
+        <if test="query.maxPrice != null">
+            AND a.ticket_price &lt;= #{query.maxPrice}
+        </if>
+        <if test="query.suggestedDuration != null and query.suggestedDuration != ''">
+            AND a.suggested_duration = #{query.suggestedDuration}
+        </if>
+        <if test="query.bestMonth != null">
+            AND FIND_IN_SET(#{query.bestMonth}, a.best_months) > 0
+        </if>
+        <if test="query.bestSeason != null and query.bestSeason != ''">
+            AND FIND_IN_SET(#{query.bestSeason}, a.best_months) > 0
+        </if>
+        <choose>
+            <when test="query.sortBy == 'id' and query.sortOrder == 'asc'">
+                ORDER BY a.id ASC
+            </when>
+            <when test="query.sortBy == 'id' and query.sortOrder == 'desc'">
+                ORDER BY a.id DESC
+            </when>
+            <when test="query.sortBy == 'hot'">
+                ORDER BY (a.view_count * 0.4 + a.favorite_count * 0.6) DESC
+            </when>
+            <when test="query.sortBy == 'rating'">
+                ORDER BY COALESCE(rs.avg_rating, 0) DESC, a.view_count DESC
+            </when>
+            <when test="query.sortBy == 'distance' and query.userLat != null and query.userLng != null">
+                ORDER BY ST_Distance_Sphere(
+                    POINT(a.longitude, a.latitude),
+                    POINT(#{query.userLng}, #{query.userLat})
+                ) ASC
+            </when>
+            <when test="query.sortBy == 'price' and query.sortOrder == 'asc'">
+                ORDER BY a.ticket_price ASC
+            </when>
+            <when test="query.sortBy == 'price' and query.sortOrder == 'desc'">
+                ORDER BY a.ticket_price DESC
+            </when>
+            <otherwise>
+                ORDER BY a.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 相似景点查询 -->
+    <select id="selectSimilarAttractions" resultMap="AttractionVOMap">
+        SELECT
+            a.id,
+            a.name,
+            a.category_id,
+            ac.name AS category_name,
+            a.description,
+            a.address,
+            a.city,
+            a.province,
+            a.district,
+            a.scenic_level,
+            a.longitude,
+            a.latitude,
+            a.open_time,
+            a.ticket_price,
+            a.charge_type,
+            a.suggested_duration,
+            a.best_months,
+            a.scene_type,
+            COALESCE(rs.avg_rating, 0) AS rating,
+            COALESCE(rs.rating_count, 0) AS rating_count,
+            a.view_count,
+            a.favorite_count,
+            a.contact_phone,
+            a.official_website,
+            a.seasonal_status,
+            a.seasonal_note,
+            a.create_time
+        FROM attraction a
+        LEFT JOIN attraction_category ac ON a.category_id = ac.id
+        LEFT JOIN (
+            SELECT
+                attraction_id,
+                ROUND(AVG(overall_score), 1) AS avg_rating,
+                COUNT(*) AS rating_count
+            FROM attraction_rating
+            WHERE overall_score > 0
+            GROUP BY attraction_id
+        ) rs ON a.id = rs.attraction_id
+        WHERE a.deleted = 0
+          AND a.audit_status = 1
+          AND a.id != #{attractionId}
+          AND (a.category_id = #{categoryId} OR a.city = #{city})
+        ORDER BY
+            CASE WHEN a.category_id = #{categoryId} THEN 1 ELSE 2 END,
+            COALESCE(rs.avg_rating, 0) DESC,
+            a.view_count DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 更新浏览量 -->
+    <update id="incrementViewCount">
+        UPDATE attraction
+        SET view_count = view_count + 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 更新收藏量 -->
+    <update id="updateFavoriteCount">
+        UPDATE attraction
+        SET favorite_count = favorite_count + #{delta}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 热点景点统计 -->
+    <select id="selectHotAttractionStats" resultType="com.tourism.model.vo.AttractionStatsVO">
+        SELECT
+            a.id,
+            a.name,
+            a.city,
+            a.scenic_level,
+            a.view_count,
+            a.favorite_count,
+            a.rating,
+            (SELECT COUNT(*) FROM attraction_rating WHERE attraction_id = a.id) AS rating_count,
+            (a.view_count * 0.3 + a.favorite_count * 0.5 + IFNULL(a.rating, 0) * 20 * 0.2) AS hot_score
+        FROM attraction a
+        WHERE a.deleted = 0 AND a.audit_status = 1
+        ORDER BY hot_score DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 高增长潜力景点 -->
+    <select id="selectGrowthPotentialAttractions" resultType="com.tourism.model.vo.AttractionStatsVO">
+        SELECT
+            a.id,
+            a.name,
+            a.city,
+            a.scenic_level,
+            a.view_count,
+            a.favorite_count,
+            a.rating,
+            (SELECT COUNT(*) FROM attraction_rating WHERE attraction_id = a.id) AS rating_count,
+            IFNULL(
+                ((a.view_count + a.favorite_count) -
+                 (SELECT IFNULL(SUM(view_count + favorite_count), 0)
+                  FROM attraction
+                  WHERE id = a.id AND create_time &lt; DATE_SUB(NOW(), INTERVAL #{days} DAY))) * 100.0 /
+                NULLIF((SELECT IFNULL(SUM(view_count + favorite_count), 1)
+                        FROM attraction
+                        WHERE id = a.id AND create_time &lt; DATE_SUB(NOW(), INTERVAL #{days} DAY)), 0),
+                0
+            ) AS growth_rate
+        FROM attraction a
+        WHERE a.deleted = 0
+          AND a.audit_status = 1
+          AND a.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+        ORDER BY growth_rate DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 获取所有省份列表 -->
+    <select id="selectAllProvinces" resultType="string">
+        SELECT DISTINCT province
+        FROM attraction
+        WHERE deleted = 0 AND province IS NOT NULL AND province != ''
+        ORDER BY province
+    </select>
+
+    <!-- 获取所有景区等级列表 -->
+    <select id="selectAllScenicLevels" resultType="string">
+        SELECT DISTINCT scenic_level
+        FROM attraction
+        WHERE deleted = 0 AND scenic_level IS NOT NULL AND scenic_level != ''
+        ORDER BY scenic_level
+    </select>
+
+    <!-- 获取所有场景分类列表 -->
+    <select id="selectAllSceneTypes" resultType="string">
+        SELECT DISTINCT scene_type
+        FROM attraction
+        WHERE deleted = 0 AND scene_type IS NOT NULL AND scene_type != ''
+    </select>
+
+    <!-- 获取所有建议游玩时长列表 -->
+    <select id="selectAllDurations" resultType="string">
+        SELECT DISTINCT suggested_duration
+        FROM attraction
+        WHERE deleted = 0 AND suggested_duration IS NOT NULL AND suggested_duration != ''
+        ORDER BY suggested_duration
+    </select>
+
+    <!-- 根据省份获取城市列表 -->
+    <select id="selectCitiesByProvince" resultType="string">
+        SELECT DISTINCT city
+        FROM attraction
+        WHERE deleted = 0
+          AND province = #{province}
+          AND city IS NOT NULL
+          AND city != ''
+        ORDER BY city
+    </select>
+
+    <!-- 根据城市获取区县列表 -->
+    <select id="selectDistrictsByCity" resultType="string">
+        SELECT DISTINCT district
+        FROM attraction
+        WHERE deleted = 0
+          AND city = #{city}
+          AND district IS NOT NULL
+          AND district != ''
+        ORDER BY district
+    </select>
+
+    <!-- 获取所有省份及其对应城市的映射关系 -->
+    <select id="selectProvinceCityMapping" resultType="java.util.HashMap">
+        SELECT DISTINCT province, city
+        FROM attraction
+        WHERE deleted = 0
+          AND province IS NOT NULL
+          AND province != ''
+          AND city IS NOT NULL
+          AND city != ''
+        ORDER BY province, city
+    </select>
+
+</mapper>

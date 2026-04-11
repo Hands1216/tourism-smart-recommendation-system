@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tourism.service.mapper.AttractionStrategyMapper">
+
+    <!-- 获取景点关联的攻略ID列表 -->
+    <select id="selectStrategyIdsByAttractionId" resultType="long">
+        SELECT strategy_id
+        FROM attraction_strategy
+        WHERE attraction_id = #{attractionId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 批量插入景点攻略关联 -->
+    <insert id="batchInsert">
+        INSERT INTO attraction_strategy (attraction_id, strategy_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.attractionId}, #{item.strategyId})
+        </foreach>
+    </insert>
+
+</mapper>

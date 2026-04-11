@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tourism.service.mapper.UserFootprintMapper">
+
+    <!-- 用户足迹列表 -->
+    <select id="selectUserFootprints" resultType="com.tourism.model.vo.UserFootprintVO">
+        SELECT
+            uf.id,
+            uf.user_id,
+            uf.attraction_id,
+            a.name as attractionName,
+            a.city,
+            SUBSTRING_INDEX(a.images, ',', 1) as attractionImage,
+            uf.visit_date,
+            uf.note,
+            uf.create_time
+        FROM user_footprint uf
+        LEFT JOIN attraction a ON uf.attraction_id = a.id
+        WHERE uf.user_id = #{userId}
+        ORDER BY uf.visit_date DESC, uf.create_time DESC
+    </select>
+
+</mapper>

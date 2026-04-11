@@ -1,0 +1,124 @@
+@startuml 旅游智慧推荐系统用例图
+
+' ========== 样式设置 ==========
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName "Microsoft YaHei"
+skinparam defaultFontSize 13
+
+skinparam usecase {
+    BackgroundColor #EBF5FB
+    BorderColor #2980B9
+    ArrowColor #2C3E50
+}
+
+skinparam actor {
+    BackgroundColor #F9E79F
+    BorderColor #F39C12
+}
+
+skinparam package {
+    BackgroundColor #FDFEFE
+    BorderColor #BDC3C7
+    FontSize 15
+    FontStyle bold
+}
+
+' ========== 角色定义 ==========
+actor "普通游客\n(user)" as User
+actor "内容管理员\n(content_admin)" as ContentAdmin
+actor "系统管理员\n(admin)" as Admin
+
+' ========== 继承关系 ==========
+User <|-- ContentAdmin
+ContentAdmin <|-- Admin
+
+' ========== 游客功能（无需登录） ==========
+package "公开访问（无需登录）" {
+    usecase "浏览首页" as UC_Home
+    usecase "浏览景点列表" as UC_AttrList
+    usecase "查看景点详情" as UC_AttrDetail
+    usecase "浏览旅游攻略" as UC_StrategyList
+    usecase "查看攻略详情" as UC_StrategyDetail
+    usecase "注册账号" as UC_Register
+    usecase "登录系统" as UC_Login
+}
+
+' ========== 游客功能（需登录） ==========
+package "游客功能（需登录）" {
+    usecase "AI智能对话" as UC_Chat
+    usecase "生成行程规划" as UC_Plan
+    usecase "保存/查看行程记录" as UC_PlanHistory
+    usecase "收藏景点" as UC_Favorite
+    usecase "评分评论景点" as UC_Rate
+    usecase "标记去过景点" as UC_Visited
+    usecase "查看用户足迹" as UC_Footprint
+    usecase "创建旅游攻略" as UC_CreateStrategy
+    usecase "编辑/删除自己的攻略" as UC_EditStrategy
+    usecase "点赞/收藏攻略" as UC_LikeStrategy
+    usecase "评论攻略" as UC_CommentStrategy
+    usecase "管理个人信息" as UC_Profile
+    usecase "查看我的收藏" as UC_MyFav
+    usecase "获取个性化推荐" as UC_Recommend
+}
+
+' ========== 内容管理员功能 ==========
+package "内容管理（content_admin）" {
+    usecase "查看管理仪表盘" as UC_Dashboard
+    usecase "审核攻略\n（通过/驳回）" as UC_AuditStrategy
+    usecase "管理攻略状态\n（上下架/加精/置顶）" as UC_ManageStrategy
+    usecase "管理景点信息\n（增删改）" as UC_ManageAttraction
+    usecase "查看景点数据分析" as UC_Analytics
+}
+
+' ========== 系统管理员功能 ==========
+package "系统管理（仅admin）" {
+    usecase "管理用户账户\n（启用/禁用/角色变更）" as UC_ManageUser
+    usecase "查看操作日志" as UC_ViewLog
+}
+
+' ========== 关联关系 ==========
+' 公开访问
+User --> UC_Home
+User --> UC_AttrList
+User --> UC_AttrDetail
+User --> UC_StrategyList
+User --> UC_StrategyDetail
+User --> UC_Register
+User --> UC_Login
+
+' 游客登录后功能
+User --> UC_Chat
+User --> UC_Plan
+User --> UC_PlanHistory
+User --> UC_Favorite
+User --> UC_Rate
+User --> UC_Visited
+User --> UC_Footprint
+User --> UC_CreateStrategy
+User --> UC_EditStrategy
+User --> UC_LikeStrategy
+User --> UC_CommentStrategy
+User --> UC_Profile
+User --> UC_MyFav
+User --> UC_Recommend
+
+' 内容管理员
+ContentAdmin --> UC_Dashboard
+ContentAdmin --> UC_AuditStrategy
+ContentAdmin --> UC_ManageStrategy
+ContentAdmin --> UC_ManageAttraction
+ContentAdmin --> UC_Analytics
+
+' 系统管理员
+Admin --> UC_ManageUser
+Admin --> UC_ViewLog
+
+' ========== 包含/扩展关系 ==========
+UC_Chat ..> UC_Recommend : <<include>>
+UC_Plan ..> UC_Chat : <<extend>>\nAI生成行程
+UC_AttrDetail ..> UC_Recommend : <<extend>>\n相似景点推荐
+UC_Login ..> UC_Register : <<extend>>\n新用户注册
+
+@enduml

@@ -1,0 +1,113 @@
+package com.tourism.model.vo;
+
+import com.tourism.model.entity.OperateLog;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+/**
+ * 操作日志VO
+ *
+ * @author 韩东升
+ */
+@Data
+public class OperateLogVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 日志ID
+     */
+    private Long id;
+
+    /**
+     * 操作用户ID
+     */
+    private Long userId;
+
+    /**
+     * 操作用户名
+     */
+    private String username;
+
+    /**
+     * 操作用户角色
+     */
+    private String userRole;
+
+    /**
+     * 操作类型
+     */
+    private String operationType;
+
+    /**
+     * 操作模块
+     */
+    private String module;
+
+    /**
+     * 操作描述
+     */
+    private String description;
+
+    /**
+     *   请求方法
+     */
+    private String requestMethod;
+
+    /**
+     * 请求参数
+     */
+    private String requestParams;
+
+    /**
+     * IP地址
+     */
+    private String ipAddress;
+
+    /**
+     * 执行状态：0-失败，1-成功
+     */
+    private Integer status;
+
+    /**
+     * 错误信息
+     */
+    private String errorMsg;
+
+    /**
+     * 执行时长（毫秒）
+     */
+    private Long executeTime;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 从实体转换为VO
+     */
+    public static OperateLogVO fromEntity(OperateLog entity) {
+        if (entity == null) {
+            return null;
+        }
+        OperateLogVO vo = new OperateLogVO();
+        vo.setId(entity.getId());
+        vo.setUserId(entity.getUserId());
+        vo.setUsername(entity.getUsername());
+        vo.setUserRole(entity.getUserRole());
+        vo.setOperationType(entity.getOperationType());
+        vo.setModule(entity.getModule());
+        vo.setDescription(entity.getDescription());
+        vo.setRequestMethod(entity.getRequestMethod());
+        vo.setRequestParams(entity.getRequestParams());
+        vo.setIpAddress(entity.getIpAddress());
+        vo.setStatus(entity.getStatus());
+        vo.setErrorMsg(entity.getErrorMsg());
+        vo.setExecuteTime(entity.getExecuteTime());
+        vo.setCreateTime(entity.getCreateTime());
+        return vo;
+    }
+}

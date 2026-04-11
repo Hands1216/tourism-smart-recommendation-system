@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-ai/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-algorithm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-backend/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-backend/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-backend/tourism-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-backend/tourism-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-backend/tourism-main/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-backend/tourism-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tourism-smart-recommendation-system/tourism-backend/tourism-service/src/main/java" charset="UTF-8" />
+  </component>
+</project>

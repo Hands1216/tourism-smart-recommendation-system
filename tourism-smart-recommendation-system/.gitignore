@@ -1,0 +1,41 @@
+# 前端
+tourism-frontend/node_modules/
+tourism-frontend/dist/
+tourism-frontend/.DS_Store
+tourism-frontend/.vscode/
+tourism-frontend*.log
+
+# 后端
+tourism-backend/target/
+tourism-backend/.settings/
+tourism-backend/.classpath
+tourism-backend/.project
+tourism-backend/.DS_Store
+
+# AI服务
+tourism-ai/target/
+tourism-algorithm/target/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# 日志
+logs/
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+*.swp
+*~
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 配置文件（敏感信息）
+tourism-backend/tourism-main/src/main/resources/application-prod.yml

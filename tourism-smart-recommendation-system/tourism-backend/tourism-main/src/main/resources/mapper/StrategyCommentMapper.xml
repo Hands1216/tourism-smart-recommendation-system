@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tourism.service.mapper.StrategyCommentMapper">
+
+    <resultMap id="CommentVOMap" type="com.tourism.model.vo.CommentVO">
+        <id column="id" property="id"/>
+        <result column="strategy_id" property="strategyId"/>
+        <result column="user_id" property="userId"/>
+        <result column="author_name" property="authorName"/>
+        <result column="author_avatar" property="authorAvatar"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="content" property="content"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 分页查询一级评论 -->
+    <select id="selectCommentPage" resultMap="CommentVOMap">
+        SELECT
+            c.id,
+            c.strategy_id,
+            c.user_id,
+            u.nickname AS author_name,
+            u.avatar AS author_avatar,
+            c.parent_id,
+            c.content,
+            c.like_count,
+            c.create_time
+        FROM strategy_comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.strategy_id = #{strategyId}
+        AND c.parent_id = 0
+        AND c.status = 1
+        ORDER BY c.create_time DESC
+    </select>
+
+    <!-- 查询子评论 -->
+    <select id="selectReplies" resultMap="CommentVOMap">
+        SELECT
+            c.id,
+            c.strategy_id,
+            c.user_id,
+            u.nickname AS author_name,
+            u.avatar AS author_avatar,
+            c.parent_id,
+            c.content,
+            c.like_count,
+            c.create_time
+        FROM strategy_comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.parent_id = #{parentId}
+        AND c.status = 1
+        ORDER BY c.create_time ASC
+    </select>
+
+</mapper>

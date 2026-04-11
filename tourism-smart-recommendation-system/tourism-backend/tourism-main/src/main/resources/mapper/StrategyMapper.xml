@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tourism.service.mapper.StrategyMapper">
+
+    <resultMap id="StrategyVOMap" type="com.tourism.model.vo.StrategyVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="author_name" property="authorName"/>
+        <result column="author_avatar" property="authorAvatar"/>
+        <result column="title" property="title"/>
+        <result column="cover_image" property="coverImage"/>
+        <result column="content" property="content"/>
+        <result column="summary" property="summary"/>
+        <result column="destination" property="destination"/>
+        <result column="days" property="days"/>
+        <result column="budget" property="budget"/>
+        <result column="season" property="season"/>
+        <result column="images" property="images"/>
+        <result column="tags" property="tags"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="favorite_count" property="favoriteCount"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="is_liked" property="isLiked"/>
+        <result column="is_favorited" property="isFavorited"/>
+        <result column="is_ai_generated" property="isAiGenerated"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="audit_reason" property="auditReason"/>
+        <result column="root_strategy_id" property="rootStrategyId"/>
+        <result column="status" property="status"/>
+        <result column="visibility" property="visibility"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 前台攻略列表（仅审核通过且上架的） -->
+    <select id="selectStrategyPage" resultMap="StrategyVOMap">
+        SELECT
+            s.id,
+            s.user_id,
+            u.nickname AS author_name,
+            u.avatar AS author_avatar,
+            s.title,
+            s.cover_image,
+            s.summary,
+            s.destination,
+            s.days,
+            s.budget,
+            s.season,
+            s.tags,
+            s.view_count,
+            s.like_count,
+            s.favorite_count,
+            s.comment_count,
+            s.is_ai_generated,
+            s.audit_status,
+            s.root_strategy_id,
+            s.create_time,
+            CASE WHEN l.id IS NOT NULL THEN 1 ELSE 0 END AS is_liked,
+            CASE WHEN f.id IS NOT NULL THEN 1 ELSE 0 END AS is_favorited
+        FROM strategy s
+        LEFT JOIN user u ON s.user_id = u.id
+        LEFT JOIN favorite l ON s.id = l.item_id AND l.item_type = 'strategy_like'
+            AND l.user_id = #{userId}
+        LEFT JOIN favorite f ON s.id = f.item_id AND f.item_type = 'strategy'
+            AND f.user_id = #{userId}
+        WHERE s.deleted = 0
+        AND s.audit_status = 1
+        AND s.status = 1
+        AND s.visibility = 1
+        <if test="destination != null and destination != ''">
+            AND s.destination LIKE CONCAT('%', #{destination}, '%')
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (s.title LIKE CONCAT('%', #{keyword}, '%')
+                 OR s.content LIKE CONCAT('%', #{keyword}, '%')
+                 OR u.nickname LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="tag != null and tag != ''">
+            AND JSON_CONTAINS(s.tags, CONCAT('"', #{tag}, '"'))
+        </if>
+        <if test="minBudget != null">
+            AND s.budget &gt;= #{minBudget}
+        </if>
+        <if test="maxBudget != null">
+            AND s.budget &lt;= #{maxBudget}
+        </if>
+        <if test="minDays != null">
+            AND s.days &gt;= #{minDays}
+        </if>
+        <if test="maxDays != null">
+            AND s.days &lt;= #{maxDays}
+        </if>
+        <if test="season != null and season != ''">
+            AND (s.season = #{season} OR s.season = 'all')
+        </if>
+        <choose>
+            <when test="orderBy == 'hot'">
+                ORDER BY s.like_count DESC, s.view_count DESC
+            </when>
+            <when test="orderBy == 'favorite'">
+                ORDER BY s.favorite_count DESC
+            </when>
+            <otherwise>
+                ORDER BY s.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 攻略详情 -->
+    <select id="selectStrategyDetail" resultMap="StrategyVOMap">
+        SELECT
+            s.id,
+            s.user_id,
+            u.nickname AS author_name,
+            u.avatar AS author_avatar,
+            s.title,
+            s.cover_image,
+            s.content,
+            s.summary,
+            s.destination,
+            s.days,
+            s.budget,
+            s.season,
+            s.images,
+            s.tags,
+            s.view_count,
+            s.like_count,
+            s.favorite_count,
+            s.comment_count,
+            s.is_ai_generated,
+            s.audit_status,
+            s.audit_reason,
+            s.status,
+            s.visibility,
+            s.create_time,
+            CASE WHEN l.id IS NOT NULL THEN 1 ELSE 0 END AS is_liked,
+            CASE WHEN f.id IS NOT NULL THEN 1 ELSE 0 END AS is_favorited
+        FROM strategy s
+        LEFT JOIN user u ON s.user_id = u.id
+        LEFT JOIN favorite l ON s.id = l.item_id AND l.item_type = 'strategy_like'
+            AND l.user_id = #{userId}
+        LEFT JOIN favorite f ON s.id = f.item_id AND f.item_type = 'strategy'
+            AND f.user_id = #{userId}
+        WHERE s.id = #{id} AND s.deleted = 0
+    </select>
+
+    <!-- 管理后台攻略列表（每条攻略链只显示最新版本，排除草稿） -->
+    <select id="selectAdminStrategyPage" resultMap="StrategyVOMap">
+        SELECT
+            s.id,
+            s.user_id,
+            u.nickname AS author_name,
+            u.avatar AS author_avatar,
+            s.title,
+            s.cover_image,
+            s.destination,
+            s.days,
+            s.budget,
+            s.tags,
+            s.view_count,
+            s.like_count,
+            s.favorite_count,
+            s.comment_count,
+            s.is_ai_generated,
+            s.audit_status,
+            s.audit_reason,
+            s.root_strategy_id,
+            s.status,
+            s.visibility,
+            s.create_time
+        FROM strategy s
+        LEFT JOIN user u ON s.user_id = u.id
+        INNER JOIN (
+            SELECT
+                COALESCE(root_strategy_id, id) AS group_id,
+                MAX(id) AS latest_id,
+                MIN(create_time) AS first_create_time
+            FROM strategy
+            WHERE deleted = 0 AND status = 1
+            GROUP BY COALESCE(root_strategy_id, id)
+        ) latest ON s.id = latest.latest_id
+        WHERE s.deleted = 0 AND s.status = 1
+        <if test="title != null and title != ''">
+            AND s.title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="auditStatus != null">
+            AND s.audit_status = #{auditStatus}
+        </if>
+        <if test="destination != null and destination != ''">
+            AND s.destination LIKE CONCAT('%', #{destination}, '%')
+        </if>
+        ORDER BY latest.first_create_time DESC, latest.group_id DESC
+    </select>
+
+    <!-- 用户自己的攻略列表（每条攻略链只显示最新版本） -->
+    <select id="selectUserStrategyPage" resultMap="StrategyVOMap">
+        SELECT
+            s.id,
+            s.user_id,
+            u.nickname AS author_name,
+            s.title,
+            s.cover_image,
+            s.destination,
+            s.days,
+            s.budget,
+            s.tags,
+            s.view_count,
+            s.like_count,
+            s.favorite_count,
+            s.comment_count,
+            s.is_ai_generated,
+            s.audit_status,
+            s.audit_reason,
+            s.root_strategy_id,
+            s.status,
+            s.visibility,
+            s.create_time
+        FROM strategy s
+        LEFT JOIN user u ON s.user_id = u.id
+        INNER JOIN (
+            SELECT COALESCE(root_strategy_id, id) AS group_id, MAX(id) AS latest_id
+            FROM strategy
+            WHERE deleted = 0 AND user_id = #{userId}
+            GROUP BY COALESCE(root_strategy_id, id)
+        ) latest ON s.id = latest.latest_id
+        WHERE s.deleted = 0 AND s.user_id = #{userId}
+        ORDER BY s.create_time DESC
+    </select>
+
+    <!-- 草稿列表（仅草稿链的最新版本） -->
+    <select id="selectDraftPage" resultMap="StrategyVOMap">
+        SELECT
+            s.id,
+            s.user_id,
+            u.nickname AS author_name,
+            s.title,
+            s.cover_image,
+            s.summary,
+            s.destination,
+            s.days,
+            s.budget,
+            s.tags,
+            s.audit_status,
+            s.audit_reason,
+            s.root_strategy_id,
+            s.status,
+            s.create_time,
+            s.update_time
+        FROM strategy s
+        LEFT JOIN user u ON s.user_id = u.id
+        INNER JOIN (
+            SELECT COALESCE(root_strategy_id, id) AS group_id, MAX(id) AS latest_id
+            FROM strategy
+            WHERE deleted = 0 AND user_id = #{userId}
+            GROUP BY COALESCE(root_strategy_id, id)
+        ) latest ON s.id = latest.latest_id
+        WHERE s.deleted = 0 AND s.user_id = #{userId} AND s.status = 0 AND s.audit_status != 0
+        ORDER BY s.update_time DESC
+    </select>
+
+    <!-- 相关推荐 -->
+    <select id="selectRelatedStrategies" resultMap="StrategyVOMap">
+        SELECT
+            s.id,
+            s.title,
+            s.cover_image,
+            s.destination,
+            s.days,
+            s.budget,
+            s.view_count,
+            s.like_count,
+            s.tags,
+            u.nickname AS author_name,
+            s.create_time
+        FROM strategy s
+        LEFT JOIN user u ON s.user_id = u.id
+        WHERE s.deleted = 0
+          AND s.audit_status = 1
+          AND s.status = 1
+          AND s.visibility = 1
+          AND s.id != #{id}
+          AND (s.destination = #{destination}
+               <if test="tags != null and tags != ''">
+                   OR JSON_OVERLAPS(s.tags, #{tags})
+               </if>
+          )
+        ORDER BY s.like_count DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="tourism-common" />
+        <module name="tourism-service" />
+        <module name="tourism-model" />
+        <module name="tourism-algorithm" />
+        <module name="tourism-ai" />
+        <module name="tourism-main" />
+        <module name="tourism-api" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="tourism-ai" options="-parameters" />
+      <module name="tourism-algorithm" options="-parameters" />
+      <module name="tourism-api" options="-parameters" />
+      <module name="tourism-backend" options="-parameters" />
+      <module name="tourism-common" options="-parameters" />
+      <module name="tourism-main" options="-parameters" />
+      <module name="tourism-model" options="-parameters" />
+      <module name="tourism-service" options="-parameters" />
+    </option>
+  </component>
+</project>
