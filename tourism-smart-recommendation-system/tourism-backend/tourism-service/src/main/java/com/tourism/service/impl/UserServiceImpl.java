@@ -208,6 +208,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public UserVO getUserById(Long userId) {
         User user = getById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
         return buildUserVO(user);
     }
 

@@ -57,7 +57,7 @@ public interface AttractionMapper extends BaseMapper<Attraction> {
     /**
      * 获取热点景点统计
      */
-    List<AttractionStatsVO> selectHotAttractionStats(@Param("limit") Integer limit);
+    List<AttractionStatsVO> selectHotAttractionStats(@Param("limit") Integer limit, @Param("days") Integer days);
 
     /**
      * 获取高增长潜力景点

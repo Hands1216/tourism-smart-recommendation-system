@@ -56,14 +56,13 @@ public class UserBehavior implements Serializable {
     private Double weight;
 
     /**
+     * 停留时长（秒）
+     */
+    private Integer duration;
+
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
-    /**
-     * 逻辑删除标记
-     */
-    @TableLogic
-    private Integer deleted;
 }

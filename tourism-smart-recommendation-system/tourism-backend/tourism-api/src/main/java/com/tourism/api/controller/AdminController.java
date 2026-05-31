@@ -78,8 +78,9 @@ public class AdminController {
      */
     @GetMapping("/dashboard/hot-attractions")
     public Result<List<AttractionStatsVO>> getDashboardHotAttractions(
-            @RequestParam(defaultValue = "15") Integer limit) {
-        List<AttractionStatsVO> stats = attractionService.getHotAttractionStats(limit);
+            @RequestParam(defaultValue = "15") Integer limit,
+            @RequestParam(defaultValue = "30") Integer days) {
+        List<AttractionStatsVO> stats = attractionService.getHotAttractionStats(limit, days);
         return Result.success(stats);
     }
 
@@ -522,8 +523,9 @@ public class AdminController {
      */
     @GetMapping("/analytics/hot-attractions")
     public Result<List<AttractionStatsVO>> getHotAttractions(
-            @RequestParam(defaultValue = "10") Integer limit) {
-        List<AttractionStatsVO> list = attractionService.getHotAttractionStats(limit);
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(defaultValue = "30") Integer days) {
+        List<AttractionStatsVO> list = attractionService.getHotAttractionStats(limit, days);
         return Result.success(list);
     }
 
@@ -532,8 +534,9 @@ public class AdminController {
      */
     @GetMapping("/analytics/growth-attractions")
     public Result<List<AttractionStatsVO>> getGrowthAttractions(
-            @RequestParam(defaultValue = "10") Integer limit) {
-        List<AttractionStatsVO> list = attractionService.getGrowthPotentialAttractions(limit);
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(defaultValue = "30") Integer days) {
+        List<AttractionStatsVO> list = attractionService.getGrowthPotentialAttractions(limit, days);
         return Result.success(list);
     }
 }

@@ -63,7 +63,7 @@
             GROUP BY attraction_id
         ) rs ON a.id = rs.attraction_id
         LEFT JOIN favorite f ON a.id = f.item_id AND f.item_type = 'attraction'
-            AND f.user_id = #{userId} AND f.deleted = 0
+            AND f.user_id = #{userId}
         WHERE a.deleted = 0
         AND a.audit_status = 1
         <if test="keyword != null and keyword != ''">
@@ -114,7 +114,7 @@
         FROM attraction a
         LEFT JOIN attraction_category ac ON a.category_id = ac.id
         LEFT JOIN favorite f ON a.id = f.item_id AND f.item_type = 'attraction'
-            AND f.user_id = #{userId} AND f.deleted = 0
+            AND f.user_id = #{userId}
         LEFT JOIN user_footprint uf ON a.id = uf.attraction_id AND uf.user_id = #{userId}
         WHERE a.id = #{id} AND a.deleted = 0
     </select>
@@ -163,7 +163,7 @@
             GROUP BY attraction_id
         ) rs ON a.id = rs.attraction_id
         LEFT JOIN favorite f ON a.id = f.item_id AND f.item_type = 'attraction'
-            AND f.user_id = #{userId} AND f.deleted = 0
+            AND f.user_id = #{userId}
         LEFT JOIN user_footprint uf ON a.id = uf.attraction_id AND uf.user_id = #{userId}
         WHERE a.deleted = 0 AND a.audit_status = 1
         <if test="query.keyword != null and query.keyword != ''">
@@ -299,49 +299,107 @@
         WHERE id = #{id}
     </update>
 
-    <!-- 热点景点统计 -->
+    <!-- 热点景点统计（基于实际行为数据） -->
     <select id="selectHotAttractionStats" resultType="com.tourism.model.vo.AttractionStatsVO">
         SELECT
             a.id,
             a.name,
             a.city,
             a.scenic_level,
-            a.view_count,
-            a.favorite_count,
-            a.rating,
-            (SELECT COUNT(*) FROM attraction_rating WHERE attraction_id = a.id) AS rating_count,
-            (a.view_count * 0.3 + a.favorite_count * 0.5 + IFNULL(a.rating, 0) * 20 * 0.2) AS hot_score
+            COALESCE(v.cnt, 0) AS view_count,
+            COALESCE(f.cnt, 0) AS favorite_count,
+            COALESCE(ar.avg_rating, 0) AS rating,
+            COALESCE(ar.rating_count, 0) AS rating_count,
+            (COALESCE(v.cnt, 0) * 0.3
+             + COALESCE(f.cnt, 0) * 0.5
+             + COALESCE(ar.avg_rating, 0) * 20 * 0.2) AS hot_score
         FROM attraction a
+        LEFT JOIN (
+            SELECT item_id, COUNT(*) AS cnt
+            FROM user_behavior
+            WHERE item_type = 'attraction' AND behavior_type = 'view'
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+            GROUP BY item_id
+        ) v ON a.id = v.item_id
+        LEFT JOIN (
+            SELECT item_id, COUNT(*) AS cnt
+            FROM favorite
+            WHERE item_type = 'attraction'
+              AND deleted = 0
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+            GROUP BY item_id
+        ) f ON a.id = f.item_id
+        LEFT JOIN (
+            SELECT attraction_id,
+                   ROUND(AVG(overall_score), 2) AS avg_rating,
+                   COUNT(*) AS rating_count
+            FROM attraction_rating
+            WHERE overall_score > 0
+            GROUP BY attraction_id
+        ) ar ON a.id = ar.attraction_id
         WHERE a.deleted = 0 AND a.audit_status = 1
         ORDER BY hot_score DESC
         LIMIT #{limit}
     </select>
 
-    <!-- 高增长潜力景点 -->
+    <!-- 高增长潜力景点（对比近期与上一周期的行为数据） -->
     <select id="selectGrowthPotentialAttractions" resultType="com.tourism.model.vo.AttractionStatsVO">
         SELECT
             a.id,
             a.name,
             a.city,
             a.scenic_level,
-            a.view_count,
-            a.favorite_count,
-            a.rating,
-            (SELECT COUNT(*) FROM attraction_rating WHERE attraction_id = a.id) AS rating_count,
-            IFNULL(
-                ((a.view_count + a.favorite_count) -
-                 (SELECT IFNULL(SUM(view_count + favorite_count), 0)
-                  FROM attraction
-                  WHERE id = a.id AND create_time &lt; DATE_SUB(NOW(), INTERVAL #{days} DAY))) * 100.0 /
-                NULLIF((SELECT IFNULL(SUM(view_count + favorite_count), 1)
-                        FROM attraction
-                        WHERE id = a.id AND create_time &lt; DATE_SUB(NOW(), INTERVAL #{days} DAY)), 0),
-                0
-            ) AS growth_rate
+            COALESCE(recent_v.cnt, 0) AS view_count,
+            COALESCE(recent_f.cnt, 0) AS favorite_count,
+            COALESCE(ar.avg_rating, 0) AS rating,
+            COALESCE(ar.rating_count, 0) AS rating_count,
+            CASE
+                WHEN COALESCE(prev.cnt, 0) = 0
+                    THEN COALESCE(recent.cnt, 0) * 1.0
+                ELSE (COALESCE(recent.cnt, 0) - prev.cnt) * 1.0 / prev.cnt
+            END AS growth_rate
         FROM attraction a
+        LEFT JOIN (
+            SELECT item_id, COUNT(*) AS cnt
+            FROM user_behavior
+            WHERE item_type = 'attraction'
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+            GROUP BY item_id
+        ) recent ON a.id = recent.item_id
+        LEFT JOIN (
+            SELECT item_id, COUNT(*) AS cnt
+            FROM user_behavior
+            WHERE item_type = 'attraction'
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} * 2 DAY)
+              AND create_time &lt; DATE_SUB(NOW(), INTERVAL #{days} DAY)
+            GROUP BY item_id
+        ) prev ON a.id = prev.item_id
+        LEFT JOIN (
+            SELECT item_id, COUNT(*) AS cnt
+            FROM user_behavior
+            WHERE item_type = 'attraction' AND behavior_type = 'view'
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+            GROUP BY item_id
+        ) recent_v ON a.id = recent_v.item_id
+        LEFT JOIN (
+            SELECT item_id, COUNT(*) AS cnt
+            FROM favorite
+            WHERE item_type = 'attraction'
+              AND deleted = 0
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+            GROUP BY item_id
+        ) recent_f ON a.id = recent_f.item_id
+        LEFT JOIN (
+            SELECT attraction_id,
+                   ROUND(AVG(overall_score), 2) AS avg_rating,
+                   COUNT(*) AS rating_count
+            FROM attraction_rating
+            WHERE overall_score > 0
+            GROUP BY attraction_id
+        ) ar ON a.id = ar.attraction_id
         WHERE a.deleted = 0
           AND a.audit_status = 1
-          AND a.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+          AND COALESCE(recent.cnt, 0) > 0
         ORDER BY growth_rate DESC
         LIMIT #{limit}
     </select>

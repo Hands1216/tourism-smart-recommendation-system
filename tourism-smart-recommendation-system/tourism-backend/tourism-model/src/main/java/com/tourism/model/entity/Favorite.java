@@ -45,7 +45,7 @@ public class Favorite implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 逻辑删除标记
+     * 逻辑删除：0-正常，1-已删除
      */
     @TableLogic
     private Integer deleted;

@@ -17,7 +17,7 @@ public class UploadConfig {
     /**
      * 上传文件存储路径
      */
-    private String path = "D:/tourism-uploads/";
+    private String path = "C:/Users/HDS/Desktop/毕设/tourism-smart-recommendation-system/images/";
 
     /**
      * 访问URL前缀

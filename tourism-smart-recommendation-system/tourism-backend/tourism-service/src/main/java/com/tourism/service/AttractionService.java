@@ -137,12 +137,12 @@ public interface AttractionService extends IService<Attraction> {
     /**
      * 管理员：获取热点景点统计
      */
-    List<AttractionStatsVO> getHotAttractionStats(Integer limit);
+    List<AttractionStatsVO> getHotAttractionStats(Integer limit, Integer days);
 
     /**
      * 管理员：获取高增长潜力景点
      */
-    List<AttractionStatsVO> getGrowthPotentialAttractions(Integer limit);
+    List<AttractionStatsVO> getGrowthPotentialAttractions(Integer limit, Integer days);
 
     /**
      * 根据省份获取城市列表

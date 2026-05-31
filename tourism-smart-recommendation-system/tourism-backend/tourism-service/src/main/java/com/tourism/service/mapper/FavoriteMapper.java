@@ -15,15 +15,9 @@ import java.time.LocalDateTime;
  */
 public interface FavoriteMapper extends BaseMapper<Favorite> {
 
-    /**
-     * 查询收藏记录（包括已删除的）- 绕过 @TableLogic
-     */
     @Select("SELECT * FROM favorite WHERE user_id = #{userId} AND item_type = #{itemType} AND item_id = #{itemId} LIMIT 1")
     Favorite selectByUserAndItem(@Param("userId") Long userId, @Param("itemType") String itemType, @Param("itemId") Long itemId);
 
-    /**
-     * 恢复已删除的收藏记录
-     */
     @Update("UPDATE favorite SET deleted = 0, create_time = #{createTime} WHERE id = #{id}")
-    int restoreFavorite(@Param("id") Long id, @Param("createTime") LocalDateTime createTime);
+    void restoreFavorite(@Param("id") Long id, @Param("createTime") LocalDateTime createTime);
 }

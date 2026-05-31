@@ -62,25 +62,13 @@ public class AttractionServiceImpl extends ServiceImpl<AttractionMapper, Attract
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void favoriteAttraction(Long userId, Long attractionId) {
-        // 查询是否存在记录（包括已删除的）- 绕过 @TableLogic
-        Favorite existing = ((com.tourism.service.mapper.FavoriteMapper) favoriteService.getBaseMapper())
-                .selectByUserAndItem(userId, "attraction", attractionId);
-
-        if (existing != null) {
-            if (existing.getDeleted() == 0) {
-                throw new RuntimeException("已收藏该景点");
-            }
-            // 恢复已删除的收藏
-            ((com.tourism.service.mapper.FavoriteMapper) favoriteService.getBaseMapper())
-                    .restoreFavorite(existing.getId(), java.time.LocalDateTime.now());
-        } else {
-            // 新增收藏
-            Favorite favorite = new Favorite();
-            favorite.setUserId(userId);
-            favorite.setItemType("attraction");
-            favorite.setItemId(attractionId);
-            favoriteService.save(favorite);
+        // 检查是否已收藏
+        if (favoriteService.isFavorited(userId, "attraction", attractionId)) {
+            throw new RuntimeException("已收藏该景点");
         }
+
+        // 新增收藏
+        favoriteService.addFavorite(userId, "attraction", attractionId);
 
         // 更新收藏量
         attractionMapper.updateFavoriteCount(attractionId, 1);
@@ -525,13 +513,13 @@ public class AttractionServiceImpl extends ServiceImpl<AttractionMapper, Attract
     }
 
     @Override
-    public List<AttractionStatsVO> getHotAttractionStats(Integer limit) {
-        return attractionMapper.selectHotAttractionStats(limit != null ? limit : 10);
+    public List<AttractionStatsVO> getHotAttractionStats(Integer limit, Integer days) {
+        return attractionMapper.selectHotAttractionStats(limit != null ? limit : 10, days != null ? days : 30);
     }
 
     @Override
-    public List<AttractionStatsVO> getGrowthPotentialAttractions(Integer limit) {
-        return attractionMapper.selectGrowthPotentialAttractions(limit != null ? limit : 10, 7);
+    public List<AttractionStatsVO> getGrowthPotentialAttractions(Integer limit, Integer days) {
+        return attractionMapper.selectGrowthPotentialAttractions(limit != null ? limit : 10, days != null ? days : 7);
     }
 
     /**
