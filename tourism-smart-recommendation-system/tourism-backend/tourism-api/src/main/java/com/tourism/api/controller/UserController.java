@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * 用户中心控制器
  *
- * @author 韩东升
  */
 @RestController
 @RequestMapping("/user")

@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 仪表盘统计VO
  *
- * @author 韩东升
  */
 @Data
 public class DashboardStatsVO implements Serializable {

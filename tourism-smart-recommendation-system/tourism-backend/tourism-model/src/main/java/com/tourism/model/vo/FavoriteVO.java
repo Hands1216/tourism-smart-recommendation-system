@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 /**
  * 收藏信息VO
  *
- * @author 韩东升
  */
 @Data
 public class FavoriteVO implements Serializable {

@@ -25,7 +25,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * 用户服务实现
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

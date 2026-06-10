@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 /**
  * 景点服务实现
  *
- * @author 韩东升
  */
 @Service
 @RequiredArgsConstructor

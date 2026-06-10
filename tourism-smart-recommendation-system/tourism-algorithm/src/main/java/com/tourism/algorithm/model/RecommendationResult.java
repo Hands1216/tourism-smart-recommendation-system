@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 推荐结果
  *
- * @author 韩东升
  */
 @Data
 @NoArgsConstructor

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * 角色实体
  *
- * @author 韩东升
  */
 @Data
 @TableName("role")

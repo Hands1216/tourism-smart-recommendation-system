@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * 景点攻略关联实体
  *
- * @author 韩东升
  */
 @Data
 @TableName("attraction_strategy")

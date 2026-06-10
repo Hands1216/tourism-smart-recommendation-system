@@ -7,7 +7,6 @@ import java.time.LocalDate;
 /**
  * 用户足迹DTO
  *
- * @author 韩东升
  */
 @Data
 public class FootprintDTO {

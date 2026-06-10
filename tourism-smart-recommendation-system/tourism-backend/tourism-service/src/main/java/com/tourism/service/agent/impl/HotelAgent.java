@@ -15,7 +15,6 @@ import java.util.Map;
  * 住宿推荐智能体
  * 专门处理酒店、民宿相关的查询和推荐
  *
- * @author 韩东升
  */
 @Slf4j
 @Component

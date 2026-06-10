@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * MyBatis-Plus 字段自动填充处理器
  *
- * @author 韩东升
  */
 @Component
 public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {

@@ -17,7 +17,6 @@ import java.util.Map;
  * 行程规划智能体
  * 专门处理路线规划、行程安排相关的查询
  *
- * @author 韩东升
  */
 @Slf4j
 @Component

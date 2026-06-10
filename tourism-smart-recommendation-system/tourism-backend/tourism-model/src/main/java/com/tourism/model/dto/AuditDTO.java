@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 审核DTO
  *
- * @author 韩东升
  */
 @Data
 public class AuditDTO implements Serializable {

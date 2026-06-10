@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 收藏服务接口
  *
- * @author 韩东升
  */
 public interface FavoriteService extends IService<Favorite> {
 

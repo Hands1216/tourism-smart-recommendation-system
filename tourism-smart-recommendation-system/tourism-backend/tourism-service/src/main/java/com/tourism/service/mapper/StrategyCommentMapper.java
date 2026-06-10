@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * 攻略评论Mapper
  *
- * @author 韩东升
  */
 public interface StrategyCommentMapper extends BaseMapper<StrategyComment> {
 

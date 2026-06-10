@@ -13,7 +13,6 @@ import java.util.*;
  * 智能体基类
  * 提供通用的LLM调用能力
  *
- * @author 韩东升
  */
 @Slf4j
 public abstract class BaseTravelAgent implements TravelAgent {

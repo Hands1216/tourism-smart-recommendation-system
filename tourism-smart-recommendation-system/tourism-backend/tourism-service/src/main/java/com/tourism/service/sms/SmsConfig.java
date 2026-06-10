@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 /**
  * 阿里云号码认证服务（DYPNS）短信配置
  *
- * @author 韩东升
  */
 @Data
 @Component

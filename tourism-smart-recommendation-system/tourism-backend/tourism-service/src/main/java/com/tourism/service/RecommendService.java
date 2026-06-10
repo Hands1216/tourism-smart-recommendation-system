@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * 推荐服务接口
  *
- * @author 韩东升
  */
 public interface RecommendService {
 

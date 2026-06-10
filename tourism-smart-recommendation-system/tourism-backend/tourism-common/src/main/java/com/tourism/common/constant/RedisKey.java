@@ -3,7 +3,6 @@ package com.tourism.common.constant;
 /**
  * Redis键常量
  *
- * @author 韩东升
  */
 public class RedisKey {
 

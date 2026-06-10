@@ -21,7 +21,6 @@ import java.util.Map;
  * 大语言模型服务实现
  * 支持 DeepSeek API
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

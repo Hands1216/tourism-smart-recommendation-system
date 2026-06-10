@@ -9,7 +9,6 @@ import java.util.Map;
 /**
  * 景点筛选选项VO
  *
- * @author 韩东升
  */
 @Data
 public class AttractionFilterVO implements Serializable {

@@ -11,7 +11,6 @@ import java.util.Map;
 /**
  * 智能体响应结果
  *
- * @author 韩东升
  */
 @Data
 @Builder

@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * 聊天请求DTO
  *
- * @author 韩东升
  */
 @Data
 public class ChatRequest {

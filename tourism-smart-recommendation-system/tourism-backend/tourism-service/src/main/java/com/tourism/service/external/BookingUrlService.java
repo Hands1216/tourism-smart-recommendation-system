@@ -11,7 +11,6 @@ import java.util.Map;
  * 预订链接生成与校验服务
  * 维护12306城市电报码、景点官方订票链接、酒店品牌官网映射表
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

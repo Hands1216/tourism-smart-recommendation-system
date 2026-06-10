@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 /**
  * 景点评分DTO
  *
- * @author 韩东升
  */
 @Data
 public class AttractionRatingDTO {

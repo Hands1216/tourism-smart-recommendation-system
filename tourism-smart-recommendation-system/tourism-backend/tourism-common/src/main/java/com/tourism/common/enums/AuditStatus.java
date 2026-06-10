@@ -5,7 +5,6 @@ import lombok.Getter;
 /**
  * 审核状态枚举
  *
- * @author 韩东升
  */
 @Getter
 public enum AuditStatus {

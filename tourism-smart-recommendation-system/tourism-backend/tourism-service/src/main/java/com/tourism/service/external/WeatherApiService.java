@@ -26,7 +26,6 @@ import java.util.zip.GZIPInputStream;
  * 天气API服务（和风天气）
  * 提供实时天气、天气预报等功能
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

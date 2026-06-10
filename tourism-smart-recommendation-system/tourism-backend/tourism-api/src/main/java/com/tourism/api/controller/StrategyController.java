@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * 攻略控制器
  *
- * @author 韩东升
  */
 @RestController
 @RequestMapping("/strategy")

@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * 用户足迹Mapper
  *
- * @author 韩东升
  */
 public interface UserFootprintMapper extends BaseMapper<UserFootprint> {
 

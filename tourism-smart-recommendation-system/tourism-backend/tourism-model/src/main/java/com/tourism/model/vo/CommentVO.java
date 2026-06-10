@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 评论VO
  *
- * @author 韩东升
  */
 @Data
 public class CommentVO implements Serializable {

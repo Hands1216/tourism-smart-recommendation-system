@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * 聊天响应VO
  *
- * @author 韩东升
  */
 @Data
 public class ChatResponseVO implements Serializable {

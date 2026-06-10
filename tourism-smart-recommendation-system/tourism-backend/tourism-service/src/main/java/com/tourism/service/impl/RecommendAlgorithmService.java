@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  * 推荐算法桥梁服务
  * 负责从数据库构建算法输入、初始化模型、提供推荐结果
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
  * 短信服务实现
  * 使用阿里云号码认证服务（DYPNS）发送和校验验证码
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * 旅游攻略Mapper
  *
- * @author 韩东升
  */
 public interface StrategyMapper extends BaseMapper<Strategy> {
 

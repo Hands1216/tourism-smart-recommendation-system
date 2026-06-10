@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 /**
  * 景点控制器
  *
- * @author 韩东升
  */
 @RestController
 @RequestMapping("/attraction")

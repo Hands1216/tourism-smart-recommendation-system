@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
  * 天气API配置（和风天气）
  * 支持API Key和JWT两种认证方式
  *
- * @author 韩东升
  */
 @Data
 @Component

@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * 聊天响应DTO
  *
- * @author 韩东升
  */
 @Data
 public class ChatResponse {

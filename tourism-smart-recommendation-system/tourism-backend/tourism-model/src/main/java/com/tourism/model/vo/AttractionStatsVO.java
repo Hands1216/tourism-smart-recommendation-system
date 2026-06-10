@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 /**
  * 景点统计VO（用于后台数据分析）
  *
- * @author 韩东升
  */
 @Data
 public class AttractionStatsVO implements Serializable {

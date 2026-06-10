@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * 推荐请求DTO
  *
- * @author 韩东升
  */
 @Data
 public class RecommendRequestDTO implements Serializable {

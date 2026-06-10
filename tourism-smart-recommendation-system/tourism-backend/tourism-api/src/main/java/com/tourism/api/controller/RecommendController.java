@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * 推荐控制器
  *
- * @author 韩东升
  */
 @RestController
 @RequestMapping("/recommend")

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 /**
  * 文件上传配置
  *
- * @author 韩东升
  */
 @Data
 @Component

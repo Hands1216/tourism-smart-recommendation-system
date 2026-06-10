@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 /**
  * 用户行为服务实现
  *
- * @author 韩东升
  */
 @Service
 public class UserBehaviorServiceImpl extends ServiceImpl<UserBehaviorMapper, UserBehavior> implements UserBehaviorService {

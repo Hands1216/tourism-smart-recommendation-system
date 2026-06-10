@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Jackson配置
  *
- * @author 韩东升
  */
 @Configuration
 public class JacksonConfig {

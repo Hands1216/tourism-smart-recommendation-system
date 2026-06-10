@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 攻略创建/更新DTO
  *
- * @author 韩东升
  */
 @Data
 public class StrategyCreateDTO implements Serializable {

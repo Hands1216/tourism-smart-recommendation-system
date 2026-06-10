@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * AI聊天控制器
  *
- * @author 韩东升
  */
 @RestController
 @RequestMapping("/chat")

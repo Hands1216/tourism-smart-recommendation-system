@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 景点攻略关联Mapper
  *
- * @author 韩东升
  */
 public interface AttractionStrategyMapper extends BaseMapper<AttractionStrategy> {
 

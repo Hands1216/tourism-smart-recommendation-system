@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * 景点Mapper
  *
- * @author 韩东升
  */
 public interface AttractionMapper extends BaseMapper<Attraction> {
 

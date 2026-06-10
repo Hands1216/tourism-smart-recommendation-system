@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 重置密码DTO
  *
- * @author 韩东升
  */
 @Data
 public class ResetPasswordDTO implements Serializable {

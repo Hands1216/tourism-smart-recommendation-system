@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 登录响应VO
  *
- * @author 韩东升
  */
 @Data
 public class LoginVO implements Serializable {

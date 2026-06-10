@@ -4,7 +4,6 @@ package com.tourism.service.sms;
  * 短信服务接口
  * 使用阿里云号码认证服务（DYPNS）
  *
- * @author 韩东升
  */
 public interface SmsService {
 

@@ -7,8 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 旅游智慧推荐系统启动类
- *
- * @author韩东升
  */
 @SpringBootApplication(scanBasePackages = "com.tourism")
 @MapperScan("com.tourism.service.mapper")
@@ -21,8 +19,6 @@ public class TourismApplication {
 
                 ========================================
                    旅游智慧推荐系统启动成功！
-                   作者：韩东升
-                   学号：2212001006
                 ========================================
                 """);
     }

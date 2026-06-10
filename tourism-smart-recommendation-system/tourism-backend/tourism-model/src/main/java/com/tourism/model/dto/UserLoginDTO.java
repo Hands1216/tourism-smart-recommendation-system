@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 用户登录DTO
  *
- * @author 韩东升
  */
 @Data
 public class UserLoginDTO implements Serializable {

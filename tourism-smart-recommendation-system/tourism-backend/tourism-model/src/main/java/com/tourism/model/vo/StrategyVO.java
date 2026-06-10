@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * 旅游攻略VO
  *
- * @author 韩东升
  */
 @Data
 public class StrategyVO implements Serializable {

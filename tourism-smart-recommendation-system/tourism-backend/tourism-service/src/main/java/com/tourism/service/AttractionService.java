@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * 景点服务接口
  *
- * @author 韩东升
  */
 public interface AttractionService extends IService<Attraction> {
 

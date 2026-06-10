@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * Web配置
  *
- * @author 韩东升
  */
 @Configuration
 @RequiredArgsConstructor

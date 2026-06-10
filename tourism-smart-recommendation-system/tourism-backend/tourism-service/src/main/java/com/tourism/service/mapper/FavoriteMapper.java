@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 /**
  * 用户收藏Mapper
  *
- * @author 韩东升
  */
 public interface FavoriteMapper extends BaseMapper<Favorite> {
 

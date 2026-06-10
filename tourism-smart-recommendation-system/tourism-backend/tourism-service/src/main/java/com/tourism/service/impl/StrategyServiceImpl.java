@@ -37,7 +37,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * 旅游攻略服务实现
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

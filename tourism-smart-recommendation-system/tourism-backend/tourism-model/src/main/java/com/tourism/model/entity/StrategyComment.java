@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * 攻略评论实体
  *
- * @author 韩东升
  */
 @Data
 @TableName("strategy_comment")

@@ -18,7 +18,6 @@ import java.util.UUID;
 /**
  * 文件上传控制器
  *
- * @author 韩东升
  */
 @Slf4j
 @RestController

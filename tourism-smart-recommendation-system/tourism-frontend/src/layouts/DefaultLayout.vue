@@ -184,7 +184,7 @@
       <!-- 页脚 -->
       <el-footer class="footer">
         <div class="footer-content">
-          <p>© 2025 旅游智慧推荐系统 | 作者：韩东升</p>
+          <p>© 2025 旅游智慧推荐系统</p>
         </div>
       </el-footer>
     </el-container>

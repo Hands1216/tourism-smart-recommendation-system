@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 /**
  * 推荐服务实现 - 集成DeepSeek AI
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

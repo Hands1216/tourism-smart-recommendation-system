@@ -21,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 /**
  * 微信登录服务实现
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

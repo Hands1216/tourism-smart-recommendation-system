@@ -17,7 +17,6 @@ import java.util.List;
  * 高德地图API服务
  * 提供路线规划、实时交通、地理编码等功能
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

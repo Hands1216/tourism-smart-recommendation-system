@@ -13,7 +13,6 @@ import java.util.Map;
 /**
  * JWT工具类
  *
- * @author 韩东升
  */
 @Component
 public class JwtUtil {

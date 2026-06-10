@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 微信登录请求DTO
  *
- * @author 韩东升
  */
 @Data
 public class WechatLoginDTO implements Serializable {

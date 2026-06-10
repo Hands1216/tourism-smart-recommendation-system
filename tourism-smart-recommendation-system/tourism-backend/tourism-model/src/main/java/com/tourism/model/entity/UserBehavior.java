@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
  * 用户行为记录实体
  * 用于协同过滤推荐算法
  *
- * @author 韩东升
  */
 @Data
 @TableName("user_behavior")

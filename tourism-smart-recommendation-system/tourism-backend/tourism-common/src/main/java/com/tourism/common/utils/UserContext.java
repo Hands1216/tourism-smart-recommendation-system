@@ -3,7 +3,6 @@ package com.tourism.common.utils;
 /**
  * 用户上下文工具类
  *
- * @author 韩东升
  */
 public class UserContext {
 

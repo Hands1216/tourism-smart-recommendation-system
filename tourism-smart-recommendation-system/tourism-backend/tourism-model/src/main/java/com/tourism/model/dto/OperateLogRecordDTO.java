@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 操作日志记录DTO
  *
- * @author 韩东升
  */
 @Data
 public class OperateLogRecordDTO implements Serializable {

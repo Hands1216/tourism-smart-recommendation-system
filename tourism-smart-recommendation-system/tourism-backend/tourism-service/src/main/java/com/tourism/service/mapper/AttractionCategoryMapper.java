@@ -6,7 +6,6 @@ import com.tourism.model.entity.AttractionCategory;
 /**
  * 景点分类Mapper
  *
- * @author 韩东升
  */
 public interface AttractionCategoryMapper extends BaseMapper<AttractionCategory> {
 }

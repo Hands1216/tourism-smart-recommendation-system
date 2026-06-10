@@ -15,7 +15,6 @@ import java.util.Map;
  * 美食推荐智能体
  * 专门处理餐厅、美食相关的查询和推荐
  *
- * @author 韩东升
  */
 @Slf4j
 @Component

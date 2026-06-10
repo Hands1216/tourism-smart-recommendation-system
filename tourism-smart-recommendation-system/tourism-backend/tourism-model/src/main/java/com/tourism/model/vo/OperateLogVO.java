@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * 操作日志VO
  *
- * @author 韩东升
  */
 @Data
 public class OperateLogVO implements Serializable {

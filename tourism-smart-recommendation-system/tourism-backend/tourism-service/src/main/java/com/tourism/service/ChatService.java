@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * AI聊天服务接口
  *
- * @author 韩东升
  */
 public interface ChatService {
 

@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
  * AI聊天服务实现
  * 集成 DeepSeek 大语言模型 + 多智能体架构
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

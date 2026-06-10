@@ -6,7 +6,6 @@ import com.tourism.model.entity.RoutePlan;
 /**
  * 路线规划服务接口
  *
- * @author 韩东升
  */
 public interface RoutePlanService extends IService<RoutePlan> {
 }

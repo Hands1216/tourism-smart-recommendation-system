@@ -6,7 +6,6 @@ import com.tourism.ai.dto.ChatResponse;
 /**
  * 大语言模型服务接口
  *
- * @author 韩东升
  */
 public interface LLMService {
 

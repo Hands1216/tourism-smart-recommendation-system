@@ -20,7 +20,6 @@ import java.util.Collections;
 /**
  * JWT认证过滤器
  *
- * @author 韩东升
  */
 @Slf4j
 @Component

@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * 收藏服务实现
  *
- * @author 韩东升
  */
 @Service
 @RequiredArgsConstructor

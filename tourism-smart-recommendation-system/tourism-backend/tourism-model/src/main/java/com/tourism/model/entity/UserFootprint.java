@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 /**
  * 用户足迹实体（去过标记）
  *
- * @author 韩东升
  */
 @Data
 @TableName("user_footprint")

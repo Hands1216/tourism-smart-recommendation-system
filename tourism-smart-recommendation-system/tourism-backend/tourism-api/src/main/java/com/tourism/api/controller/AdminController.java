@@ -30,7 +30,6 @@ import java.util.List;
 /**
  * 管理后台控制器
  *
- * @author 韩东升
  */
 @RestController
 @RequestMapping("/admin")

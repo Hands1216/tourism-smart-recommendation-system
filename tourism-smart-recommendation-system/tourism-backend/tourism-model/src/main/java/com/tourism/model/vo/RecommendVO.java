@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * 推荐结果VO
  *
- * @author 韩东升
  */
 @Data
 public class RecommendVO implements Serializable {

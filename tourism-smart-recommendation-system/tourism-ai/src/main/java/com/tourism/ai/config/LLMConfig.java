@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 大模型配置类
  *
- * @author 韩东升
  */
 @Configuration
 @ConfigurationProperties(prefix = "llm")

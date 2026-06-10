@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * 景点管理DTO（管理员使用）
  *
- * @author 韩东升
  */
 @Data
 public class AttractionAdminDTO {

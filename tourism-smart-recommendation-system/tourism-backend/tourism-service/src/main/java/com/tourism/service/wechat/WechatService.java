@@ -5,7 +5,6 @@ import com.tourism.model.vo.LoginVO;
 /**
  * 微信登录服务接口
  *
- * @author 韩东升
  */
 public interface WechatService {
 

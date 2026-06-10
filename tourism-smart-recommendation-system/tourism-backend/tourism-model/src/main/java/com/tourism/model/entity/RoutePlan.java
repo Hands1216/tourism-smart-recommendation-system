@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 /**
  * 路线规划实体
  *
- * @author 韩东升
  */
 @Data
 @TableName("route_plan")

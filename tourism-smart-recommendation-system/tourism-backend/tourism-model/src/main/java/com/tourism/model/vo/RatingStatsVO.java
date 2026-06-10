@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 /**
  * 评分统计VO
  *
- * @author 韩东升
  */
 @Data
 public class RatingStatsVO implements Serializable {

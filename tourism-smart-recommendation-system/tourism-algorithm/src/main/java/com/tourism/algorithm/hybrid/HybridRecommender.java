@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
  * 混合推荐算法
  * 结合协同过滤和基于内容的推荐
  *
- * @author 韩东升
  */
 @Slf4j
 @Component

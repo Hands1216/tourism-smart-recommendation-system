@@ -4,11 +4,25 @@ target/
 *.war
 *.class
 
-# 敏感配置文件（如果必须保留本地配置，使用模板文件）
+# 敏感配置文件（使用模板文件 application*.yml.example 代替）
 application-prod.yml
 application-dev.yml
 **/application.yml
-target/
 **/application*.yml
-target/
-**/application*.yml
+
+# 部署密钥
+.env
+.env.local
+.env.*.local
+
+# Docker 镜像导出文件（部署中间产物）
+*.tar
+
+# 用户上传的图片（运行时数据）
+images/
+uploads/
+
+# 辅助产物（与项目无关）
+outputs/
+create_doc.py
+server.log

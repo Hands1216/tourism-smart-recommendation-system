@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 认证控制器
  *
- * @author 韩东升
  */
 @Slf4j
 @RestController

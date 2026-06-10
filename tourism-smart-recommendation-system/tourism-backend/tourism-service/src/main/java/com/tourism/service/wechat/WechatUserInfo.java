@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * 微信用户信息
  *
- * @author 韩东升
  */
 @Data
 public class WechatUserInfo {

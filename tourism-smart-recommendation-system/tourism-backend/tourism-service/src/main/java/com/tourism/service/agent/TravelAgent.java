@@ -6,7 +6,6 @@ import java.util.Map;
  * 智能体接口
  * 定义所有专业智能体的通用行为
  *
- * @author 韩东升
  */
 public interface TravelAgent {
 

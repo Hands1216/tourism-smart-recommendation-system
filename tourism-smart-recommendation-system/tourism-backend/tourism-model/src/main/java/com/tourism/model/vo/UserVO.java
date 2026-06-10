@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 /**
  * 用户信息VO
  *
- * @author 韩东升
  */
 @Data
 public class UserVO implements Serializable {

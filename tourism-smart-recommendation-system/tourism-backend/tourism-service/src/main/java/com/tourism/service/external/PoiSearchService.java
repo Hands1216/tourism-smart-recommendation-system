@@ -22,7 +22,6 @@ import java.util.List;
  * 高德POI搜索服务
  * 封装高德地图 /place/text API，为Agent提供实时POI查询能力
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

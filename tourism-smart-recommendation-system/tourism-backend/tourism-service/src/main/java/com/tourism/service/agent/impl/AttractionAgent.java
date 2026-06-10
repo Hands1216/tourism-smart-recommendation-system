@@ -15,7 +15,6 @@ import java.util.Map;
  * 景点推荐智能体
  * 专门处理景点相关的查询和推荐
  *
- * @author 韩东升
  */
 @Slf4j
 @Component

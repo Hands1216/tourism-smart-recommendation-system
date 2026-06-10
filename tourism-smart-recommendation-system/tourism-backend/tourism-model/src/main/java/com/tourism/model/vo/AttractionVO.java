@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * 景点信息VO
  *
- * @author 韩东升
  */
 @Data
 public class AttractionVO implements Serializable {

@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 评论创建DTO
  *
- * @author 韩东升
  */
 @Data
 public class CommentCreateDTO implements Serializable {

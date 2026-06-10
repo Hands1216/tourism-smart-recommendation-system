@@ -5,7 +5,6 @@ import lombok.Getter;
 /**
  * 响应码枚举
  *
- * @author 韩东升
  */
 @Getter
 public enum ResultCode {

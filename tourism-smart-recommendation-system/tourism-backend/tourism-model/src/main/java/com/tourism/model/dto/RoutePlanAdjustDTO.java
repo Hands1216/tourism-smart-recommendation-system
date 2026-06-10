@@ -7,7 +7,6 @@ import java.io.Serializable;
 /**
  * 行程调整请求DTO
  *
- * @author 韩东升
  */
 @Data
 public class RoutePlanAdjustDTO implements Serializable {

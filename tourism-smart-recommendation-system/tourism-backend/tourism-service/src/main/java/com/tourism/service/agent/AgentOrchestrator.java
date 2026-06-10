@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
  * 智能体协调器
  * 负责分析用户意图，选择合适的智能体处理请求
  *
- * @author 韩东升
  */
 @Slf4j
 @Service

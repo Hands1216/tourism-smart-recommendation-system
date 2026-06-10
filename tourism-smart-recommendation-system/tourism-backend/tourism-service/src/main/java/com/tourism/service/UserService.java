@@ -11,7 +11,6 @@ import com.tourism.model.vo.UserVO;
 /**
  * 用户服务接口
  *
- * @author 韩东升
  */
 public interface UserService extends IService<User> {
 

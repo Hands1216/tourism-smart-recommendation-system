@@ -8,7 +8,6 @@ import java.io.Serializable;
  * 统一响应结果
  *
  * @param <T> 数据类型
- * @author 韩东升
  */
 @Data
 public class Result<T> implements Serializable {

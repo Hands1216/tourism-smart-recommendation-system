@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * 操作日志实体
  *
- * @author 韩东升
  */
 @Data
 @TableName("operate_log")

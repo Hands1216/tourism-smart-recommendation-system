@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * 景点评分VO
  *
- * @author 韩东升
  */
 @Data
 public class AttractionRatingVO implements Serializable {

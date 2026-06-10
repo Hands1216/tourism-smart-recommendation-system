@@ -8,7 +8,6 @@ import java.io.Serializable;
 /**
  * 聊天消息DTO
  *
- * @author 韩东升
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -9,7 +9,6 @@ import java.util.Map;
 /**
  * 用户偏好模型
  *
- * @author 韩东升
  */
 @Data
 @NoArgsConstructor

@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 景点评分Mapper
  *
- * @author 韩东升
  */
 public interface AttractionRatingMapper extends BaseMapper<AttractionRating> {
 

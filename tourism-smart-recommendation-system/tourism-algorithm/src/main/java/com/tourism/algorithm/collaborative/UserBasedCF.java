@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 /**
  * 基于用户的协同过滤算法
  *
- * @author 韩东升
  */
 @Slf4j
 @Component
